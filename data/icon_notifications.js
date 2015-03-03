@@ -160,7 +160,7 @@ function getNewReminderCount(){
             reminderCount = parseInt(containers[0].innerHTML.match(/\d/gi).join(""));
         }
     }
-    return (reminderCount - currentReminderCount);
+    return (reminderCount);
 }
 
 function haveNewReminders(){
@@ -182,28 +182,28 @@ function getNewUnreadMessageCount() {
     return newUnreadMessageCount;
 }
 
-function generateMessage(count, isMessage){
-    var message = "";
-    if (isMessage){
-        message = "You have " + count + " new " + ((count > 1) ? " messages" : " message") + ".";
-    } else {
-        message = "You have " + count + " new " + ((count > 1) ? " reminders" : " reminder") + ".";
-    }
-    return message;
+function generateEmailMessage(){
+    var count = getNewUnreadMessageCount();
+    return "You have " + count + " new" + ((count > 1) ? " messages" : " message") + ".";
+}
+
+function generateReminderMessage(){
+    var reminderCount = getNewReminderCount();
+    return "You have " + reminderCount + " new" + ((reminderCount > 1) ? " reminders" : " reminder") + ".";
 }
 
 function notify() {
-    var unread = getNewUnreadMessageCount();
+    var newUnreadEmailCount = getNewUnreadMessageCount();
+    var newReminderCount = getNewReminderCount();
     
     if (haveNewMessages()) {
-        self.port.emit("notify", generateMessage(unread, true));
+        self.port.emit("notify", generateEmailMessage());
     }
     if (haveNewReminders()){
-        var newReminderCount = getNewReminderCount();
-        self.port.emit("notify", generateMessage(newReminderCount, false));
-        currentReminderCount = newReminderCount;
+        self.port.emit("notify", generateReminderMessage());
     }
     
-    currentUnreadMessageCount = unread;
+    currentUnreadMessageCount = newUnreadEmailCount;
+    currentReminderCount = newReminderCount;
     setFavicon(); 
 }

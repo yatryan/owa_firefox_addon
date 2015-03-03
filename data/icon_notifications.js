@@ -2,7 +2,9 @@ var timer;
 var currentUnreadMessageCount = 0;
 var currentReminderCount = 0;
 var documentTitle = document.title;
-document.head.appendChild(getOwaIcon());
+var documentHead = document.head || document.getElementsByTagName("head")[0];
+
+documentHead.appendChild(getOwaIcon());
 
 
 self.port.on("startMonitor", function(delayBetweenChecks) {
@@ -96,7 +98,7 @@ function setFavicon() {
         if(currentUnreadMessageCount > 0){
             newIcon.href = icon;
         }
-        document.head.appendChild(newIcon);
+        documentHead.appendChild(newIcon);
     }
 }
 

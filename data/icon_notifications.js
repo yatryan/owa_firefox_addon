@@ -22,7 +22,6 @@ self.port.on("detach", function() {
 function tearDown(){
     clearInterval(timer);
     setFavicon(0);
-    addCountToDocumentTitle(0);
 }
 
 function getOwaIcon(){
@@ -99,10 +98,6 @@ function setFavicon() {
         }
         document.head.appendChild(newIcon);
     }
-}
-
-function addCountToDocumentTitle(count) {
-    document.title = (count === undefined || count == 0) ? "" : "(" + count + ") - " + documentTitle;
 }
 
 function getCountBasedOffFolders(folders){
@@ -208,6 +203,5 @@ function notify() {
     }
     
     currentUnreadMessageCount = unread;
-    setFavicon(); // Probably unnecessary since you alter the document title. 
-    addCountToDocumentTitle(currentUnreadMessageCount);
+    setFavicon(); 
 }

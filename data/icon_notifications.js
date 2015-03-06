@@ -3,11 +3,12 @@ var currentUnreadMessageCount = 0;
 var currentReminderCount = 0;
 var documentTitle = document.title;
 var documentHead = document.head || document.getElementsByTagName("head")[0];
+var bgColor, fontColor;
 
 documentHead.appendChild(getOwaIcon());
 
 
-self.port.on("startMonitor", function(delayBetweenChecks) {
+self.port.on("startMonitor", function(delayBetweenChecks, faviconBgColor, faviconFontColor) {
     if (timer) {
         clearInterval(timer);
     }
@@ -15,6 +16,8 @@ self.port.on("startMonitor", function(delayBetweenChecks) {
         delayBetweenChecks = 1;
     }
     timer = setInterval(notify, delayBetweenChecks * 5000);
+	bgColor = faviconBgColor;
+	fontColor = faviconFontColor;
 });
 
 self.port.on("detach", function() {
@@ -48,16 +51,16 @@ function drawRoundedRectangle(ctx, x, y, width, height, radius){
     ctx.quadraticCurveTo(x, y, x + radius, y);
     ctx.closePath();
 
-    ctx.strokeStyle = "#aaaaaa";
+    ctx.strokeStyle = bgColor;
     ctx.stroke();
-    ctx.fillStyle = "#aaaaaa";
+    ctx.fillStyle = bgColor;
     ctx.fill();
 }
 function addTextToFavicon(ctx){
     ctx.font = "bold 40px Arial";
     ctx.textBaseline = "top";
     ctx.textAlign = "center";
-    ctx.fillStyle = "black";
+    ctx.fillStyle = fontColor;
     var number = getPrettyNumber(getNewUnreadMessageCount());
     var numberString = (number >= 99) ? new String(number + "+") : new String(number);
     ctx.fillText(numberString, 40,15);

@@ -1,12 +1,12 @@
 {
-  "id": "owa_notifications@mihai-chezan.github.com",
+  "id": "owa_firefox_addon@jarrettroth.github.com",
   "name": "owa_notifications",
   "title": "Outlook Web App Notifications",
   "description": "Add system notifications capability to OWA (Outlook Web App). No configuration needed. When new email arrives into OWA a system notification about this event will be shown. Also the fav icon and document title of the OWA tab are updated to show the number of unread emails. Fork of OWA_firefox_addon by Phil Baranovskiy.",
   "icon": "data/owa_full.png",
-  "homepage": "https://github.com/mihai-chezan/owa_notifications_firefox_extension",
-  "author": "Mihai Chezan",
-  "contributors": ["Phil Baranovskiy"],
+  "homepage": "https://github.com/jarrettroth/owa_firefox_addon",
+  "author": "Multiple",
+  "contributors": ["Jarrett Roth", "Taylor Ryan"],
   "license": "MPL 2.0",
   "version": "1.2.1",
   "preferences": [{
@@ -15,5 +15,17 @@
         "description": "Controls how fast new emails are dettected and notifications will appear. Lower value means faster reaction.",
         "type": "integer",
         "value": 1
+    },{
+        "name": "faviconBgColor",
+        "title": "Color behind favicon",
+        "description": "Controls the background color of the Favicon.",
+        "type": "color",
+        "value": "#aaaaaa"
+    },{
+        "name": "faviconFontColor",
+        "title": "Count Color",
+        "description": "Controls the font color of the number in the favicon.",
+        "type": "color",
+        "value": "#000000"
     }]
 }

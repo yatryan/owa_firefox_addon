@@ -3,6 +3,7 @@ var currentUnreadMessageCount = 0;
 var currentReminderCount = 0;
 var documentTitle = document.title;
 var documentHead = document.head || document.getElementsByTagName("head")[0];
+var EMAIL_ICON_64 = "iVBORw0KGgoAAAANSUhEUgAAAGcAAABVCAYAAABU8/pfAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA5JJREFUeNrsnU1rE1EUhk+Ky8T+AZVEbMFWcPQH2LgorkQEqy67U/zAaFwqmehGxEDBz+KmS7VFKW5Fk50iaISm7kxQIdvG/IBxTpgZprWd3qmTmXOT94UDSTNdnPfpez8yaW7KsizaRlm7DKegaFR3qhV0USoAzqxdBbsOw8u+6Ztdc3YtqMLJOhdPwbvYVHPC0AqCw0NX1a5R+BW7OnblneHuHzhZ5wWASRaQ4SbID6eKoUzMEMcJohHf5A8wMjTl8PCSU8eqTNwqzmA4PNc04Yc45UawuRQrA3CEw4GECnAABwIcwIEABwoH5+Onz1S4XqRUKoUKWewb+xdKlmWZloKWXi/z+zyo/yz2UVGmEpy1tY6Vy+2HuREU+8h+qsBRGtbeva9Ss/nDe37rdomhohSL/XLFPrKfkc057Xbbe3ytcIPu3jExW4cQ+8W+beZnpKu1A2PjcHsH2olvWEpjnwMBDuBA2sL5+ev3UBrZj74jhdPp/KFi8SbNnD1PjdXvQwGF++R+uW/RcJ7OP6elxZe9OjQ5QY+ezA80GO6P+3R7vne/IhdOOp1e9/zq5YsDmSI3LdxfUP+i4Fy5dIFWGqt0Zuac97NBS5E/La64X+6b+xe9IJicOEiLr17Qw8fPBipFW6WF++R+uW9tltKDlKI40xLbPkf3FCWRltg3oTqmKKm0JPIOgS4pSjotib59IzlFEtKSKByJKZKUlsThSEqRtLSIgZNkiqSmRRScJFIkOS0i4cSRIh3SIhZOP1OkS1rEw4kyRbqlRQs4UaRIx7RoBScoRWGlQ1r82kUaif/aj+ePkWmWvefbXV+rfug9Ns2SNlC0hONPkeoHKiqVB7Rv7x7SUdp+NErVcF3BaA1nGAQ4gAMBDuBAgAMBDuBAgAM4EOBAgAM4EOAADt+84v/9hNTFfrk3/cJI6Wbb+PiY99i9H18sFuG6oiqVyrrPMfj9DJTq961NT5/AV3JFUOxjpN+3xlpprAJQBGDYR1U4qR4hopLq2Plm+S3Vv36hbreL8UpRmUyGjCNH6fSpkzQ6ulv118qh4ECxqoylNPY5EOAADgQ4UA9OHTaIVB1ntslVDqcdylTvtEN3zpmDH6LU44ETduXJO2EXZ1PL0pZnUxPhVPekweT9q+eN+5y6A6gGr2IfyoyN25qNyfFr1q4CVnF9X5Xx5L+w2YtBcPxzkUE4iTfSDaZTraCL/gowAJOxaZVDH/yyAAAAAElFTkSuQmCC";
 
 documentHead.appendChild(getOwaIcon());
 
@@ -30,8 +31,8 @@ function getOwaIcon(){
     var owaIcon = document.createElement("link");
     owaIcon.rel = "icon";
     owaIcon.type = "image/png";
-    owaIcon.sizes = "64x64";
-    owaIcon.href = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAABvUlEQVQ4y6WTz0tUURTHP/e9N04MBqNJQRDYDKK5tEAINxHRsk24sWWL6G+wheImWriYaBVuRHMZGrVxIQ4pxRQtZiU5OjNU2nOycV6D8+bNPS7e/MAZfC38woUL55zPvffc71EiIpxDRlDw6NhjdeswEGA1Nrbjkso5fM47bO6USO6WKP+rgQjyciwY8OxDlpn3ebAMMFUrGjbA0/+/gWEoCJtnJi2nC8wm92mgy65mYSJGvC/SekJTIsQvXWDbPm7e5kexytr3IihAC28eDRDvi3Q20VBwMH2LufEYrx72g/Y/SIkGV3Pn+kXKz0dJZoosff19uokAD4Z7SKz/YupdnsKLUZ4uZiBk8GTsKiPXuukOm8RmvrBX9Lg7EO0EWKbCd4WgRQB/JdZ/svTNZmPbgZAByo+0AYS36UNeT9/k3mCU+ZQNYQu0xjIVG9myX1yX6gQoqlromUzR39tFxq74TdRQ9QQqtVaVJyhF5xMANJD5457yw+PbV7h/I9oEiMDQ5UgLUNP1E9qNVFckZDJYL2iXagxT7m+FVK7Ep6zDx90Sm1kH7WrfyomzrYwEaO+oIivpQlCKqPOO8wknR+1GRWhuAQAAAABJRU5ErkJggg==";
+    owaIcon.sizes = "100x100";
+    owaIcon.href = "data:image/png;base64," + EMAIL_ICON_64;
     return owaIcon;
 }
 

@@ -4,11 +4,12 @@ var currentReminderCount = 0;
 var documentTitle = document.title;
 var documentHead = document.head || document.getElementsByTagName("head")[0];
 var EMAIL_ICON_64 = "iVBORw0KGgoAAAANSUhEUgAAAGcAAABVCAYAAABU8/pfAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA5JJREFUeNrsnU1rE1EUhk+Ky8T+AZVEbMFWcPQH2LgorkQEqy67U/zAaFwqmehGxEDBz+KmS7VFKW5Fk50iaISm7kxQIdvG/IBxTpgZprWd3qmTmXOT94UDSTNdnPfpez8yaW7KsizaRlm7DKegaFR3qhV0USoAzqxdBbsOw8u+6Ztdc3YtqMLJOhdPwbvYVHPC0AqCw0NX1a5R+BW7OnblneHuHzhZ5wWASRaQ4SbID6eKoUzMEMcJohHf5A8wMjTl8PCSU8eqTNwqzmA4PNc04Yc45UawuRQrA3CEw4GECnAABwIcwIEABwoH5+Onz1S4XqRUKoUKWewb+xdKlmWZloKWXi/z+zyo/yz2UVGmEpy1tY6Vy+2HuREU+8h+qsBRGtbeva9Ss/nDe37rdomhohSL/XLFPrKfkc057Xbbe3ytcIPu3jExW4cQ+8W+beZnpKu1A2PjcHsH2olvWEpjnwMBDuBA2sL5+ev3UBrZj74jhdPp/KFi8SbNnD1PjdXvQwGF++R+uW/RcJ7OP6elxZe9OjQ5QY+ezA80GO6P+3R7vne/IhdOOp1e9/zq5YsDmSI3LdxfUP+i4Fy5dIFWGqt0Zuac97NBS5E/La64X+6b+xe9IJicOEiLr17Qw8fPBipFW6WF++R+uW9tltKDlKI40xLbPkf3FCWRltg3oTqmKKm0JPIOgS4pSjotib59IzlFEtKSKByJKZKUlsThSEqRtLSIgZNkiqSmRRScJFIkOS0i4cSRIh3SIhZOP1OkS1rEw4kyRbqlRQs4UaRIx7RoBScoRWGlQ1r82kUaif/aj+ePkWmWvefbXV+rfug9Ns2SNlC0hONPkeoHKiqVB7Rv7x7SUdp+NErVcF3BaA1nGAQ4gAMBDuBAgAMBDuBAgAM4EOBAgAM4EOAADt+84v/9hNTFfrk3/cJI6Wbb+PiY99i9H18sFuG6oiqVyrrPMfj9DJTq961NT5/AV3JFUOxjpN+3xlpprAJQBGDYR1U4qR4hopLq2Plm+S3Vv36hbreL8UpRmUyGjCNH6fSpkzQ6ulv118qh4ECxqoylNPY5EOAADgQ4UA9OHTaIVB1ntslVDqcdylTvtEN3zpmDH6LU44ETduXJO2EXZ1PL0pZnUxPhVPekweT9q+eN+5y6A6gGr2IfyoyN25qNyfFr1q4CVnF9X5Xx5L+w2YtBcPxzkUE4iTfSDaZTraCL/gowAJOxaZVDH/yyAAAAAElFTkSuQmCC";
+var bgColor, fontColor;
 
 documentHead.appendChild(getOwaIcon());
 
 
-self.port.on("startMonitor", function(delayBetweenChecks) {
+self.port.on("startMonitor", function(delayBetweenChecks, faviconBgColor, faviconFontColor) {
     if (timer) {
         clearInterval(timer);
     }
@@ -16,6 +17,8 @@ self.port.on("startMonitor", function(delayBetweenChecks) {
         delayBetweenChecks = 1;
     }
     timer = setInterval(notify, delayBetweenChecks * 5000);
+	bgColor = faviconBgColor;
+	fontColor = faviconFontColor;
 });
 
 self.port.on("detach", function() {
@@ -49,16 +52,16 @@ function drawRoundedRectangle(ctx, x, y, width, height, radius){
     ctx.quadraticCurveTo(x, y, x + radius, y);
     ctx.closePath();
 
-    ctx.strokeStyle = "#aaaaaa";
+    ctx.strokeStyle = bgColor;
     ctx.stroke();
-    ctx.fillStyle = "#aaaaaa";
+    ctx.fillStyle = bgColor;
     ctx.fill();
 }
 function addTextToFavicon(ctx){
     ctx.font = "bold 40px Arial";
     ctx.textBaseline = "top";
     ctx.textAlign = "center";
-    ctx.fillStyle = "black";
+    ctx.fillStyle = fontColor;
     var number = getPrettyNumber(getNewUnreadMessageCount());
     var numberString = (number >= 99) ? new String(number + "+") : new String(number);
     ctx.fillText(numberString, 40,15);

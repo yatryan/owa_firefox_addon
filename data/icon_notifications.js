@@ -201,10 +201,10 @@ function notify() {
     var newReminderCount = getNewReminderCount();
     
     if (haveNewMessages()) {
-        self.port.emit("notify", generateEmailMessage());
+        self.port.emit("notify", generateEmailMessage(), true);
     }
     if (haveNewReminders()){
-        self.port.emit("notify", generateReminderMessage());
+        self.port.emit("notify", generateReminderMessage(), false);
     }
     
     currentUnreadMessageCount = newUnreadEmailCount;

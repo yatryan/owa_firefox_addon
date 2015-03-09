@@ -2,10 +2,13 @@ var timer;
 var currentUnreadMessageCount = 0;
 var currentReminderCount = 0;
 var documentTitle = document.title;
-document.head.appendChild(getOwaIcon());
+var documentHead = document.head || document.getElementsByTagName("head")[0];
+var bgColor, fontColor;
+
+documentHead.appendChild(getOwaIcon());
 
 
-self.port.on("startMonitor", function(delayBetweenChecks) {
+self.port.on("startMonitor", function(delayBetweenChecks, faviconBgColor, faviconFontColor) {
     if (timer) {
         clearInterval(timer);
     }
@@ -13,6 +16,8 @@ self.port.on("startMonitor", function(delayBetweenChecks) {
         delayBetweenChecks = 1;
     }
     timer = setInterval(notify, delayBetweenChecks * 5000);
+	bgColor = faviconBgColor;
+	fontColor = faviconFontColor;
 });
 
 self.port.on("detach", function() {
@@ -22,7 +27,6 @@ self.port.on("detach", function() {
 function tearDown(){
     clearInterval(timer);
     setFavicon(0);
-    addCountToDocumentTitle(0);
 }
 
 function getOwaIcon(){
@@ -47,16 +51,16 @@ function drawRoundedRectangle(ctx, x, y, width, height, radius){
     ctx.quadraticCurveTo(x, y, x + radius, y);
     ctx.closePath();
 
-    ctx.strokeStyle = "#aaaaaa";
+    ctx.strokeStyle = bgColor;
     ctx.stroke();
-    ctx.fillStyle = "#aaaaaa";
+    ctx.fillStyle = bgColor;
     ctx.fill();
 }
 function addTextToFavicon(ctx){
     ctx.font = "bold 40px Arial";
     ctx.textBaseline = "top";
     ctx.textAlign = "center";
-    ctx.fillStyle = "black";
+    ctx.fillStyle = fontColor;
     var number = getPrettyNumber(getNewUnreadMessageCount());
     var numberString = (number >= 99) ? new String(number + "+") : new String(number);
     ctx.fillText(numberString, 40,15);
@@ -97,12 +101,8 @@ function setFavicon() {
         if(currentUnreadMessageCount > 0){
             newIcon.href = icon;
         }
-        document.head.appendChild(newIcon);
+        documentHead.appendChild(newIcon);
     }
-}
-
-function addCountToDocumentTitle(count) {
-    document.title = (count === undefined || count == 0) ? "" : "(" + count + ") - " + documentTitle;
 }
 
 function getCountBasedOffFolders(folders){
@@ -163,7 +163,7 @@ function getNewReminderCount(){
             reminderCount = parseInt(containers[0].innerHTML.match(/\d/gi).join(""));
         }
     }
-    return (reminderCount - currentReminderCount);
+    return (reminderCount);
 }
 
 function haveNewReminders(){
@@ -185,29 +185,28 @@ function getNewUnreadMessageCount() {
     return newUnreadMessageCount;
 }
 
-function generateMessage(count, isMessage){
-    var message = "";
-    if (isMessage){
-        message = "You have " + count + " new " + ((count > 1) ? " messages" : " message") + ".";
-    } else {
-        message = "You have " + count + " new " + ((count > 1) ? " reminders" : " reminder") + ".";
-    }
-    return message;
+function generateEmailMessage(){
+    var count = getNewUnreadMessageCount();
+    return "You have " + count + " new" + ((count > 1) ? " messages" : " message") + ".";
+}
+
+function generateReminderMessage(){
+    var reminderCount = getNewReminderCount();
+    return "You have " + reminderCount + " new" + ((reminderCount > 1) ? " reminders" : " reminder") + ".";
 }
 
 function notify() {
-    var unread = getNewUnreadMessageCount();
+    var newUnreadEmailCount = getNewUnreadMessageCount();
+    var newReminderCount = getNewReminderCount();
     
     if (haveNewMessages()) {
-        self.port.emit("notify", generateMessage(unread, true));
+        self.port.emit("notify", generateEmailMessage());
     }
     if (haveNewReminders()){
-        var newReminderCount = getNewReminderCount();
-        self.port.emit("notify", generateMessage(newReminderCount, false));
-        currentReminderCount = newReminderCount;
+        self.port.emit("notify", generateReminderMessage());
     }
     
-    currentUnreadMessageCount = unread;
-    setFavicon(); // Probably unnecessary since you alter the document title. 
-    addCountToDocumentTitle(currentUnreadMessageCount);
+    currentUnreadMessageCount = newUnreadEmailCount;
+    currentReminderCount = newReminderCount;
+    setFavicon(); 
 }

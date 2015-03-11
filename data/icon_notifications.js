@@ -58,13 +58,27 @@ function drawRoundedRectangle(ctx, x, y, width, height, radius){
     ctx.fill();
 }
 function addTextToFavicon(ctx){
-    ctx.font = "bold 40px Arial";
+    var number = getPrettyNumber(getNewUnreadMessageCount());
+    var digitsInNumber = getDigitCountOfNumber(number) ;
+    var x = 40, y = 15;
+    ctx.fontStyle = "bold";
+
+    if (digitsInNumber == 1){
+        ctx.font="50px Arial";
+        x = 35;
+        y = 10;
+    } else if (digitsInNumber == 2){
+        ctx.font="45px Arial";
+        x = 37;
+        y = 12;
+    } else {
+        ctx.font="40px Arial";
+    }
     ctx.textBaseline = "top";
     ctx.textAlign = "center";
     ctx.fillStyle = fontColor;
-    var number = getPrettyNumber(getNewUnreadMessageCount());
     var numberString = (number >= 99) ? new String(number + "+") : new String(number);
-    ctx.fillText(numberString, 40,15);
+    ctx.fillText(numberString, x, y);
 }
 
 function drawIcon(){
@@ -78,6 +92,17 @@ function drawIcon(){
     drawRoundedRectangle(context, 0, 0, 75, 70, 30);
     addTextToFavicon(context);
     return canvas.toDataURL("image/png");
+}
+
+function getDigitCountOfNumber(number){
+    //It's ok to only check for 3 digits max because we filter this number with getPrettyNumber()
+    if (number < 10){
+        return 1;
+    } else if (number >= 10 && number <=99){
+        return 2;
+    } else {
+        return 3;
+    }
 }
 
 function getPrettyNumber(number){

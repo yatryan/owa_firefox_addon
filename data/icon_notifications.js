@@ -159,7 +159,9 @@ function getFolders (){
 }
 
 function getItemsWithActiveCount(folder){
-    return folder.querySelectorAll("[id*='.ucount']");
+	var name = folder.querySelectorAll("[id*='.subfolders']");
+	var inbox = name[0].firstChild;
+    return inbox.querySelectorAll("[id*='.ucount']");
 }
 
 function getContainersBySpanId(){
